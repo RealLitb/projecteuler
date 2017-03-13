@@ -2,7 +2,7 @@ from itertools import takewhile, product, cycle, starmap, islice
 from functools import reduce
 import operator
 
-# "primes" shall be a list of cached primes, shared by all calls
+# this and d's definition is the same as in problem21.py
 def prime_factorize(n, primes):
     ps = {}
     for p in primes:
@@ -34,11 +34,25 @@ def d(a, primes):
     divisors.remove(a)
     return sum(divisors)
 
-cached_primes = [2, 3]
-sum_amicable = 0
-for a in range(2, 10000):
-    b = d(a, cached_primes)
-    if b != a and d(b, cached_primes) == a:
-        sum_amicable += a
+def is_abundant(a, cached_primes):
+    return d(a, cached_primes) > a
 
-print("sum amicables", sum_amicable)
+def is_abundant_composable(a, abundant_numbers):
+    for b in abundant_numbers:
+        m = a - b
+        if m in abundant_numbers:
+            return True
+    return False
+
+cached_primes = [2, 3]
+abundant_numbers = set()
+sum_uncomposable_numbers = 0
+
+for a in range(1, 28124):
+    if not is_abundant_composable(a, abundant_numbers):
+        sum_uncomposable_numbers += a
+    if is_abundant(a, cached_primes):
+        abundant_numbers.add(a)
+
+print ("sum of uncomposables", sum_uncomposable_numbers)
+
