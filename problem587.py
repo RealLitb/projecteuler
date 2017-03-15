@@ -1,12 +1,12 @@
 import math
 from itertools import count
 
-# the diagonal equation for d/2 circles
+# the diagonal equation for d circles
 def diag(d, x):
     return 1 / d * x + (1 - 1 / d)
 
 # intersect the diagonal with the last circle's arc 0..pi/2
-# for d/2 circles. solved to x using wolfram alpha
+# for d circles. solved to x using wolfram alpha
 def intersect(d):
     x = (1 - d) / (d**2 + 1) + 2**0.5 * (d**3 / (d**2 + 1)**2)**0.5
     return x
