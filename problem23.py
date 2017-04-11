@@ -2,6 +2,14 @@ from itertools import takewhile, product, cycle, starmap, islice
 from functools import reduce
 import operator
 
+def extend_primes(primes, limit):
+    for i in range(primes[-1] + 2, limit, 2):
+        for p in takewhile(lambda p: p * p <= i, primes):
+            if i % p == 0:
+                break
+        else:
+            primes.append(i)
+
 # this and d's definition is the same as in problem21.py
 def prime_factorize(n, primes):
     ps = {}
@@ -16,12 +24,7 @@ def prime_factorize(n, primes):
             break
     if n != 1:
         len_primes = len(primes)
-        for i in range(primes[-1], n + 1, 2):
-            for p in takewhile(lambda p: p * p <= i, primes):
-                if i % p == 0:
-                    break
-            else:
-                primes.append(i)
+        extend_primes(primes, n + 1)
         ps.update(prime_factorize(n, islice(primes, len_primes, None)))
     return ps
 
